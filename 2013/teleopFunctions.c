@@ -21,17 +21,17 @@ void updateMotor(int joystickInput, tMotor oneMotor)
 //toggleMotor requires a global variable
 bool toggled = false;
 //this function uses a button input and a motor input to toggle a motor on/off
-void toggleMotor(int button, tMotor motorToggle, int toggleValue)
+void toggleMotor(int buttonForward, int buttonReverse, tMotor motorToggle, int toggleValue)
 {
-	if(button == 1 && toggled == false)
+	if(buttonForward == 1)
 	{
 		motor[motorToggle] = toggleValue;
-		toggled = true;
-			wait10Msec(10);
-	} else if (button == 1 && toggled == true) {
+	}else if(buttonReverse == 1)
+	{
+		motor[motorToggle] = -toggleValue;
+	}else
+	{
 		motor[motorToggle] = 0;
-		toggled = false;
-			wait10Msec(10);
 	}
 
 }
@@ -53,35 +53,35 @@ void toggleServo(int button, TServoIndex servoName, int toggleValue)
 //experience with two axis values. Takes input axis, axis, motor, motor
 void updateBase(int yAxis, int xAxis, tMotor RightDrive, tMotor LeftDrive)
 {
-/*	int scaleFactor = 100;
+	int scaleFactor = 100;
 	if(abs(yAxis) > DEADZONE)
 	{
 		if(abs(xAxis) > DEADZONE)
 		{
-			motor[RightDrive] = ((yAxis + (int)(xAxis/2)) / 256) * scaleFactor;
-			motor[LeftDrive] = ((yAxis - (int)(xAxis/2)) / 256) * scaleFactor;
+			motor[RightDrive] = (yAxis - xAxis) * scaleFactor / 256 ;
+			motor[LeftDrive] = (yAxis + xAxis) * scaleFactor / 256;
 		} else {
-			motor[LeftDrive] = (yAxis / 127) * scaleFactor;
-			motor[RightDrive] = (yAxis / 127) * scaleFactor;
+			motor[LeftDrive] = yAxis * scaleFactor / 127;
+			motor[RightDrive] = yAxis * scaleFactor / 127;
 		}
 	}else {
-		motor[LeftDrive] = -(xAxis / 127) * scaleFactor;
-		motor[RightDrive] = (xAxis / 127) * scaleFactor;
+		motor[LeftDrive] = xAxis * scaleFactor / 127;
+		motor[RightDrive] = -xAxis * scaleFactor / 127;
 	}
 	if(abs(yAxis) < DEADZONE && abs(xAxis) < DEADZONE)
 	{
 		motor[LeftDrive] = 0;
 		motor[RightDrive] = 0;
 	}
-	*/
-		if(abs(xAxis) > DEADZONE || abs(yAxis) > DEADZONE)
+
+	/*	if(abs(xAxis) > DEADZONE || abs(yAxis) > DEADZONE)
 		{
 			motor[RightDrive] = 100.0 * (yAxis + xAxis) / (127.0 + (float)abs(xAxis) ) ;
 			motor[LeftDrive] = 100.0 * (yAxis - xAxis) / (127.0 + (float)abs(xAxis) ) ;
 		} else {
 			motor[LeftDrive] = 0;
 			motor[RightDrive] = 0;
-		}
+		} */
 }
 
 //This task Runs the arm with an encoder stop at the top and a sensor stop at the bottom

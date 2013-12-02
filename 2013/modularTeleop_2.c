@@ -1,8 +1,8 @@
 #pragma config(Hubs,  S1, HTMotor,  HTMotor,  HTMotor,  HTServo)
 #pragma config(Sensor, S1,     ,               sensorI2CMuxController)
 #pragma config(Sensor, S2,     touchSensor,    sensorTouch)
-#pragma config(Motor,  mtr_S1_C1_1,     LeftDrive,     tmotorTetrix, PIDControl, reversed, encoder)
-#pragma config(Motor,  mtr_S1_C1_2,     RightDrive,    tmotorTetrix, PIDControl, encoder)
+#pragma config(Motor,  mtr_S1_C1_1,     LeftDrive,     tmotorTetrix, PIDControl, encoder)
+#pragma config(Motor,  mtr_S1_C1_2,     RightDrive,    tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C2_1,     Flagspinner,   tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C2_2,     Spinmotor,     tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C3_1,     ElbowMotor,    tmotorTetrix, PIDControl, encoder)
@@ -33,19 +33,14 @@ task main()
   {
   	getJoystickSettings(joystick);
   	updateBase(joystick.joy1_y1, joystick.joy1_x2, RightDrive, LeftDrive);
-		wait10Msec(1);
 		updateArm(joystick.joy2_y1, joystick.joy2_y2, ShoulderMotor, ElbowMotor, touchSensor);
-		wait10Msec(1);
 		updateMotor(joystick.joy2_y2, ElbowMotor);
-		wait10Msec(1);
-		toggleMotor(joy1Btn(5), SpinMotor, 100);
-		wait10Msec(1);
-		toggleMotor(joy1Btn(6), SpinMotor, -100);
-		wait10Msec(1);
+		toggleMotor(joy1Btn(5), joy1Btn(6), SpinMotor, 50);
 		toggleServo(joy1Btn(2), servo1, 90);
 		if(SensorValue(touchSensor) == 1)
 		{
 			nMotorEncoder[ShoulderMotor] = 0;
 		}
+		wait1Msec(2);
 	}
 }
