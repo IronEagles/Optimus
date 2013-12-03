@@ -89,12 +89,7 @@ void updateArm(int axisShoulder, int axisElbow, tMotor ShoulderMotor, tMotor Elb
 																																			tSensors touchSensor)
 {
 	float scaleFactor = 1.0;
-	if((int)nMotorEncoder[ShoulderMotor] > 5000)
-	{
-		scaleFactor = ((float)nMotorEncoder[ShoulderMotor] / 500.0);
-	}else{
-		scaleFactor = 1.0;
-	}
+
 	if(SensorValue(touchSensor) == 1)
 	{
 		if((axisShoulder) > 0)
