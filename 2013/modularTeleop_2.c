@@ -21,7 +21,7 @@
 
 void initializeRobot()
 {
-	servo[servo1] = 100;
+	servo[servo6] = 30;
 	bFloatDuringInactiveMotorPWM = false;
   return;
 }
@@ -35,7 +35,8 @@ task main()
   	updateBase(joystick.joy1_y1, joystick.joy1_x2, RightDrive, LeftDrive);
 		updateArm(joystick.joy2_y1, joystick.joy2_y2, ShoulderMotor, ElbowMotor, touchSensor);
 		updateMotor(joystick.joy2_y2, ElbowMotor);
-		toggleMotor(joy1Btn(5), joy1Btn(6), SpinMotor, 50);
+		toggleMotor(joy1Btn(5), joy1Btn(6), Spinmotor, 100);
+		toggleMotor(joy1Btn(4), joy1Btn(2), Flagspinner, 100);
 		toggleServo(joy1Btn(2), servo1, 90);
 		if(SensorValue(touchSensor) == 1)
 		{

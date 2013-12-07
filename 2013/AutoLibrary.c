@@ -27,7 +27,7 @@ void goToIR()
   motor[motorLeft] = 30;
 	motor[motorRight] = 30;
 	PlayTone(784, 15);
-	while(SensorValue[IRsensor] != 7)  // infinite loop:
+	while(SensorValue[IRsensor] != 4)  // infinite loop:
 	{
   	nxtDisplayCenteredTextLine(2, "Sensor Value: %d", SensorValue[IRsensor]);  // display "Sensor Value: ##"
   	wait1Msec(10);  // Wait 100 milliseconds to help display correctly
@@ -57,11 +57,21 @@ void driveDistance(int power, int distance)
 {
 	if(power < 0)
 	{
-		distance = nMotorEncoder[motorRight] + abs(distance);
-		while(nMotorEncoder[motorRight] < distance)
+		distance = nMotorEncoder[motorRight] + distance;
+		if(power > 0)
 		{
-			motor[motorLeft] = power;
-			motor[motorRight] = power;
+			while(nMotorEncoder[motorRight] < distance)
+			{
+				motor[motorLeft] = power;
+				motor[motorRight] = power;
+			}
+		}else
+		{
+			while(nMotorEncoder[motorRight] > distance)
+			{
+				motor[motorLeft] = power;
+				motor[motorRight] = power;
+			}
 		}
 	}
 	else
@@ -142,17 +152,4 @@ task heading()
     	//delTime /= 1000;
 
 	}
-}
-
-task main()
-{
-	nMotorEncoder[motorLeft] = 0;
-	nMotorEncoder[motorRight] = 0;
-	StartTask(heading, 50);
-	goToIR();
-	wait10Msec(100);
-	servoTarget(servo6) = 165;
-	wait10Msec(100);
-	driveDistance(75, (7500 - nMotorEncoder[motorRight]));
-
 }
