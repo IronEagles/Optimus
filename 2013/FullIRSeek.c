@@ -20,8 +20,8 @@
 
 task main()
 {
-	StartTask(heading, 50);
 	waitForStart();
+	StartTask(heading, 50);
 	nMotorEncoder[motorLeft] = 0;
 	nMotorEncoder[motorRight] = 0;
 	driveDistance(100, 800);

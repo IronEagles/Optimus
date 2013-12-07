@@ -24,7 +24,7 @@ task main()
 	waitForStart();
 	nMotorEncoder[motorLeft] = 0;
 	nMotorEncoder[motorRight] = 0;
-	driveDistance(100, 2000);
+	driveDistance(100, 2300);
 	wait10Msec(50);
 	servoTarget(servo6) = 230;
 	wait10Msec(100);
