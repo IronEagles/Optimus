@@ -4,7 +4,7 @@
 //--------------------------------------------------------------------------------//
 
 #define DEADZONE 15
-#define ENCSTOP 5000
+#define ENCSTOP 5500
 //This function updates the motors with direct joystick input. The arguments are
 //the joystick, and then the name of the motor you want it to affect.
 void updateMotor(int joystickInput, tMotor oneMotor)

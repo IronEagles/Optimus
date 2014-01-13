@@ -20,17 +20,36 @@
 
 task main()
 {
-	StartTask(heading, 50);
 	waitForStart();
+	StartTask(heading, 50);
 	nMotorEncoder[motorLeft] = 0;
 	nMotorEncoder[motorRight] = 0;
-	driveDistance(100, 2500);
+	driveDistance(100, 800);
 	wait10Msec(50);
+	gyroTurn(-50, 40);
+	nMotorEncoder[motorLeft] = 0;
+	nMotorEncoder[motorRight] = 0;
+	/////////////////
+	while(nMotorEncoder(motorRight) < 7000)
+	{
+		if(checkIR() == TRUE)
+		{
+			servoTarget(servo6) = 230;
+			wait10Msec(100);
+			servoTarget(servo6) = 30;
+		}
+		driveDistance(40, 750);
+		wait10Msec(30);
+	}
+
 	servoTarget(servo6) = 230;
 	wait10Msec(100);
 	servoTarget(servo6) = 30;
-	driveDistance(100, 1500);
-	gyroTurn(-50, 55);
-	driveDistance(-100, -4000);
+	driveDistance(75, (7000 - nMotorEncoder[motorRight]));
+	gyroTurn(50, 45);
+	driveDistance(100, 3500);
+	gyroTurn(-50, 90);
+	driveDistance(-100, -6500);
+
 
 }

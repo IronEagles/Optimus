@@ -38,6 +38,17 @@ void goToIR()
 	PlayTone(784, 15);  // play a tone at a frequency of 784 for 150 milliseconds
 }
 
+bool CheckIR(int irValue)
+{
+	if(SensorValue[IRsensor] == irValue)  // infinite loop:
+	{
+		return(true);  // Wait 100 milliseconds to help display correctly
+	}else
+	{
+		return(false);
+	}
+}
+
 void FunctionToWall()
 {
 	//Score Autonomus goes here XD
@@ -60,14 +71,14 @@ void driveDistance(int power, int distance)
 		distance = nMotorEncoder[motorRight] + distance;
 		if(power > 0)
 		{
-			while(nMotorEncoder[motorRight] < distance)
+			while(nMotorEncoder[motorRight] < distance )
 			{
 				motor[motorLeft] = power;
 				motor[motorRight] = power;
 			}
 		}else
 		{
-			while(nMotorEncoder[motorRight] > distance)
+			while(nMotorEncoder[motorRight] > distance )
 			{
 				motor[motorLeft] = power;
 				motor[motorRight] = power;
