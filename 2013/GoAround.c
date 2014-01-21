@@ -34,15 +34,21 @@ task main()
 	nMotorEncoder[motorRight] = 0;
 	gyroTurn(-30,90);
 	while(true)
-	(
+	{
 		if(checkIR(5))
-		(
+		{
 			break;
-		)
+		}
 		if((nMotorEncoder(motorRight) > 7000) && checkIR(4))
-		(
+		{
 			break;
-		)
-		nxtDisplayTextLine(7, "&d", nMotorEncoder(motorRight);
-		motor(motorLeft) =
+		}
+		nxtDisplayTextLine(7, "%d", nMotorEncoder(motorRight);
+		motor[motorLeft] = 28;
+		motor[motorRight] = 28;
+	}
+
+	servoTarget(servo6) = 230;
+	wait10Msec(100);
+	servoTarget(servo6) = 30;
 }
