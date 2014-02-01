@@ -11,7 +11,7 @@ void updateMotor(int joystickInput, tMotor oneMotor)
 {
 	if(abs(joystickInput) > DEADZONE)
   {
-   	motor[oneMotor] = (joystickInput/2);
+   	motor[oneMotor] = (joystickInput);
   }else{
   	motor[oneMotor] = 0;
 	}
