@@ -12,6 +12,51 @@ float currHeading = 0.0;
 
 // A better accelerate would take a distance to accelerate over/ devide your distance(encoder counts) by speed and then bump up speed every
 // certain amount of encoder counts
+int interface ()
+{
+	int yournumber = 1;
+
+	until(nNxtButtonPressed == 3)
+	{
+		nxtDisplayTextLine(1, "1: Foward Auto");
+		nxtDisplayTextLine(2, "2: Backward Auto");
+		nxtDisplayTextLine(3, "3: Fastest Auto");
+		nxtDisplayTextLine(4, "Your Choice %d", yournumber);
+
+		if(nNxtButtonPressed == 1)
+		{
+			yournumber --;
+			wait1Msec(300);
+		}
+		if(nNxtButtonPressed == 2)
+		{
+			yournumber ++;
+			wait1Msec(300);
+		}
+	}
+}
+
+int timeinterface ()
+{
+	int yourtime = 0;
+
+	until(nNxtButtonPressed == 3)
+	{
+		nxtDisplayTextLine(2, "How long before start?");
+		nxtDisplayTextLine(4, "Time: %d", yourtime);
+
+		if(nNxtButtonPressed == 1)
+		{
+			yourtime --;
+		}
+		if(nNxtButtonPressed == 2)
+		{
+			yourtime ++;
+		}
+
+	}
+	return yourtime;
+}
 void accelerate(int initialSpeed = 20, int topSpeed = 100, int distance = 5) // initial speed, top speed, distance
 {
 	int rate = (distance * ENC_PER_INCH) / (topSpeed - initialSpeed);
