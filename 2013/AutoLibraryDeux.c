@@ -116,28 +116,28 @@ void gyroTurn(int power, float turn)
 
 int driveSeekBasket()
 {
-	nMotorEncoder[MOTOR_RIGHT] = 0
-	nMotorEncoder[MOTOR_LEFT] = 0
+	nMotorEncoder[MOTOR_RIGHT] = 0;
+	nMotorEncoder[MOTOR_LEFT] = 0;
 	while(nMotorEncoder[MOTOR_RIGHT] < (int)(POS_BASKET_ONE * ENC_PER_INCH) && nMotorEncoder[MOTOR_LEFT] > -(int)(POS_BASKET_ONE * ENC_PER_INCH))
 	{
 		accelerate(20, 100, POS_BASKET_ONE / 2);
 		accelerate(100, 20, POS_BASKET_ONE / 2);
 		motor[MOTOR_LEFT] = 0;
-		motor[motor_RIGHT] = 0;
+		motor[MOTOR_RIGHT] = 0;
 	}
 	if(checkIR(6))
 		{
 			return 1;
 			break;
 		}else{
-			nMotorEncoder[MOTOR_RIGHT] = 0
-			nMotorEncoder[MOTOR_LEFT] = 0
+			nMotorEncoder[MOTOR_RIGHT] = 0;
+			nMotorEncoder[MOTOR_LEFT] = 0;
 			while(nMotorEncoder[MOTOR_RIGHT] < (int)(POS_BASKET_TWO * ENC_PER_INCH) && nMotorEncoder[MOTOR_LEFT] > -(int)(POS_BASKET_TWO * ENC_PER_INCH))
 			{
 				accelerate(20, 100, POS_BASKET_TWO / 2);
 				accelerate(100, 20, POS_BASKET_TWO / 2);
 				motor[MOTOR_LEFT] = 0;
-				motor[motor_RIGHT] = 0;
+				motor[MOTOR_RIGHT] = 0;
 			}
 		}
 	if(checkIR(5))
@@ -145,14 +145,14 @@ int driveSeekBasket()
 		return 2;
 		break;
 	}else{
-		nMotorEncoder[MOTOR_RIGHT] = 0
-		nMotorEncoder[MOTOR_LEFT] = 0
+		nMotorEncoder[MOTOR_RIGHT] = 0;
+		nMotorEncoder[MOTOR_LEFT] = 0;
 		while(nMotorEncoder[MOTOR_RIGHT] < (int)(POS_BASKET_THREE * ENC_PER_INCH) && nMotorEncoder[MOTOR_LEFT] > -(int)(POS_BASKET_THREE * ENC_PER_INCH))
 			{
 				accelerate(20, 100, POS_BASKET_THREE / 2);
 				accelerate(100, 20, POS_BASKET_THREE / 2);
 				motor[MOTOR_LEFT] = 0;
-				motor[motor_RIGHT] = 0;
+				motor[MOTOR_RIGHT] = 0;
 			}
 	}
 	if(checkIR(5))
@@ -160,14 +160,14 @@ int driveSeekBasket()
 		return 3;
 		break;
 	}else{
-		nMotorEncoder[MOTOR_RIGHT] = 0
-		nMotorEncoder[MOTOR_LEFT] = 0
+		nMotorEncoder[MOTOR_RIGHT] = 0;
+		nMotorEncoder[MOTOR_LEFT] = 0;
 		while(nMotorEncoder[MOTOR_RIGHT] < (int)(POS_BASKET_FOUR * ENC_PER_INCH) && nMotorEncoder[MOTOR_LEFT] > -(int)(POS_BASKET_FOUR * ENC_PER_INCH))
 			{
 				accelerate(20, 100, POS_BASKET_FOUR / 2);
 				accelerate(100, 20, POS_BASKET_FOUR / 2);
 				motor[MOTOR_LEFT] = 0;
-				motor[motor_RIGHT] = 0;
+				motor[MOTOR_RIGHT] = 0;
 			}
 	}
 	return 4;
