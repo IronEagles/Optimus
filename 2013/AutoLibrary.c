@@ -3,6 +3,7 @@
 #include "drivers/hitechnic-gyro.h"
 float currHeading = 0.0;
 
+
 void goToIR()
 {
 	nMotorEncoder[LeftDrive] = 0;

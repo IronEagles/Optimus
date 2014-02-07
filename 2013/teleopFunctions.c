@@ -4,7 +4,7 @@
 //--------------------------------------------------------------------------------//
 
 #define DEADZONE 15
-#define ENCSTOP 5500
+#define ENCSTOP 6000
 //This function updates the motors with direct joystick input. The arguments are
 //the joystick, and then the name of the motor you want it to affect.
 void updateMotor(int joystickInput, tMotor oneMotor)
@@ -99,7 +99,7 @@ void updateArm(int axisShoulder, int axisElbow, tMotor ShoulderMotor, tMotor Elb
 			motor[ShoulderMotor] = 0;
 		}
 	}else{
-		if(nMotorEncoder[ShoulderMotor] > ENCSTOP)
+		if(abs(nMotorEncoder[ShoulderMotor]) > ENCSTOP)
 		{
 			if((axisShoulder) < 0)
 			{
