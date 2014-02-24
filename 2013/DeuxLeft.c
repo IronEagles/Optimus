@@ -35,39 +35,40 @@ task main()
 	wait10Msec(30);
 
 	// Move away from the wall
-	motor[MOTOR_LEFT] = 40;
-	motor[MOTOR_RIGHT] = 40;
+	motor[MOTOR_LEFT] = -40;
+	motor[MOTOR_RIGHT] = -40;
 	driveTo(4);
 	motor[MOTOR_LEFT] = 0;
 	motor[MOTOR_RIGHT] = 0;
 
 
 	// Turn toward the west wall
-	gyroTurn(-20, 87);
+	gyroTurn(20, 87);
 	motor[MOTOR_LEFT] = 0;
 	motor[MOTOR_RIGHT] = 0;
 	nMotorEncoder[MOTOR_LEFT] = 0;
 	nMotorEncoder[MOTOR_RIGHT] = 0;
 
 	// Drive toward the west wall
-	motor[MOTOR_LEFT] = 40;
-	motor[MOTOR_RIGHT] = 40;
-	driveTo(28);
+	motor[MOTOR_LEFT] = -40;
+	motor[MOTOR_RIGHT] = -40;
+	driveTo(25);
 	motor[MOTOR_LEFT] = 0;
 	motor[MOTOR_RIGHT] = 0;
 
 
 	// Turn toward the baskets
-	gyroTurn(20, 43);
+	gyroTurn(-20, 42);
 	nMotorEncoder[MOTOR_LEFT] = 0;
 	nMotorEncoder[MOTOR_RIGHT] = 0;
 	//-------------------------------
 
 	// We're aligned with the baskets.
 	// Start walking along them looking for the IR beacon
-	accelerate();
-  driveTo(16);
-	if(CheckIR(5)) // The first basket
+	motor[MOTOR_LEFT] = -40;
+	motor[MOTOR_RIGHT] = -40;
+ 	driveTo(4);
+	if(CheckIR(4) || checkIR(5)) // The first basket
 	{
 		motor[MOTOR_LEFT] = 0;
 		motor[MOTOR_RIGHT] = 0;
@@ -76,8 +77,8 @@ task main()
 		wait10Msec(50);
 		//forward/back
 	}else { // The second basket
-		driveTo(26);
-		if(checkIR(5))
+		driveTo(13);
+		if(checkIR(4) || checkIR(5))
 		{
 			motor[MOTOR_LEFT] = 0;
 			motor[MOTOR_RIGHT] = 0;
@@ -85,8 +86,8 @@ task main()
 			wait10Msec(150);
 			//forward/back
 		}else{ // The third basket
-			driveTo(46);
-			if(sensorValue[IRsensor] == 4 || sensorValue[IRsensor] == 5)
+			driveTo(35);
+			if(sensorValue[IRsensor] == 6 || sensorValue[IRsensor] == 5)
 			{
 				motor[MOTOR_LEFT] = 0;
 				motor[MOTOR_RIGHT] = 0;
@@ -95,7 +96,7 @@ task main()
 				//place block
 				//forward/back
 			}else{ // The fourth basket
-				driveTo(55);
+				driveTo(45);
 				motor[MOTOR_LEFT] = 0;
 				motor[MOTOR_RIGHT] = 0;
 				servoTarget(servo6) = 180; // Deploy the auto-scoring arm
@@ -110,10 +111,12 @@ task main()
 	{
   	case 1:											// if 'nTaskToStart' is '1':
   		// Drive to the end of the baskets.
-  		motor[MOTOR_LEFT] = 90;
-			motor[MOTOR_RIGHT] = 90;
-    	driveTo(60);
-    	motor[MOTOR_LEFT] = 0;
+			motor[MOTOR_LEFT] = 50;
+			motor[MOTOR_RIGHT] = 50;
+			while(abs(nMotorEncoder[MOTOR_RIGHT]) > 100)
+			{
+			}
+			motor[MOTOR_LEFT] = 0;
 			motor[MOTOR_RIGHT] = 0;
 
 			// Turn toward the ramp
@@ -149,36 +152,34 @@ task main()
     	break;                 // break out of this switch statement and continue code after the '}'
 
   	case 2:                // if 'nTaskToStart' is '2':
-			motor[MOTOR_LEFT] = -50;
-			motor[MOTOR_RIGHT] = -50;
-			while(abs(nMotorEncoder[MOTOR_RIGHT]) > 2000)
-			{
-			}
-			motor[MOTOR_LEFT] = 0;
+			motor[MOTOR_LEFT] = -90;
+			motor[MOTOR_RIGHT] = -90;
+    	driveTo(51);
+    	motor[MOTOR_LEFT] = 0;
 			motor[MOTOR_RIGHT] = 0;
 
-			gyroTurn(60, 160);
+
 
 			nMotorEncoder[MOTOR_LEFT] = 0;
 			nMotorEncoder[MOTOR_RIGHT] = 0;
-			motor[MOTOR_LEFT] = 90;
-			motor[MOTOR_RIGHT] = 90;
+			motor[MOTOR_LEFT] = -90;
+			motor[MOTOR_RIGHT] = -90;
 			driveTo(10);
     	motor[MOTOR_LEFT] = 0;
 			motor[MOTOR_RIGHT] = 0;
 			gyroTurn(-40, 70);
 			nMotorEncoder[MOTOR_LEFT] = 0;
 			nMotorEncoder[MOTOR_RIGHT] = 0;
-			motor[MOTOR_LEFT] = 50;
-			motor[MOTOR_RIGHT] = 50;
+			motor[MOTOR_LEFT] = -50;
+			motor[MOTOR_RIGHT] = -50;
 			driveTo(35);
 			motor[MOTOR_LEFT] = 0;
 			motor[MOTOR_RIGHT] = 0;
 			gyroTurn(-40, 90);
 			nMotorEncoder[MOTOR_LEFT] = 0;
 			nMotorEncoder[MOTOR_RIGHT] = 0;
-			motor[MOTOR_LEFT] = 90;
-			motor[MOTOR_RIGHT] = 90;
+			motor[MOTOR_LEFT] = -90;
+			motor[MOTOR_RIGHT] = -90;
 			driveTo(35);
 			motor[MOTOR_LEFT] = 0;
 			motor[MOTOR_RIGHT] = 0;

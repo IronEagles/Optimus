@@ -32,7 +32,7 @@ task main()
 	wait10Msec(100);
 	servoTarget(servo6) = 30;
 	driveDistance(100, 1500);
-	gyroTurn(-50, 55);
+	gyroTurn(-50, 90);
 	driveDistance(-100, -4000);
 
 }

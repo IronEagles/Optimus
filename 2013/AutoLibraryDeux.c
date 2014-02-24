@@ -10,8 +10,10 @@ float currHeading = 0.0;
 #define MOTOR_RIGHT RightDrive
 
 
-// A better accelerate would take a distance to accelerate over/ devide your distance(encoder counts) by speed and then bump up speed every
-// certain amount of encoder counts
+// --------- INTERFACE FUNCTION ----------------//
+// This function polls the user for whether he wants
+// to go backwards onto the ramp, or forwards on to the ramp
+// thus helping us to strategize on the field
 int interface ()
 {
 	int yournumber = 1;
@@ -38,7 +40,7 @@ int interface ()
 }
 
 //-----------------------------------------------------------------------------------------------------//
-
+//This function does the same thing as the previous function, but asks for the desired wait time
 int timeinterface ()
 {
 	int yourtime = 0;
@@ -66,11 +68,12 @@ int timeinterface ()
 }
 
 //-----------------------------------------------------------------------------------------------------//
+//This accelerates the robot from zero to 80
 
 void accelerate() // initial speed, top speed, distance
 {
 	int speed = 0;
-	while(speed < 60)  // from speed = 0 to 50
+	while(speed < 80)  // from speed = 0 to 50
 	{
 		speed = speed + 10;
 		motor[MOTOR_LEFT] = speed;
@@ -80,15 +83,15 @@ void accelerate() // initial speed, top speed, distance
 }
 
 //-----------------------------------------------------------------------------------------------------//
-
+//accelerates the robot in a negative direction
 void decelerate() // initial speed, top speed, distance
 {
-	int speed = 100;
-	while(speed > 0)
+	int speed = 0;
+	while(speed > -80)
 	{
 		speed = speed - 20;
 		motor[MOTOR_LEFT] = speed;
-		motor[MOTOR_RIGHT] = speed + 2;
+		motor[MOTOR_RIGHT] = speed - 2;
 		wait10Msec(5);
 	}
 }
@@ -119,7 +122,7 @@ void gyroTurn(int power, float turn)
 	motor[MOTOR_LEFT] = 0;
 	motor[MOTOR_RIGHT] = 0;
 
-	wait1Msec(1000);
+	wait1Msec(300);
 }
 //-----------------------------------------------------------------------------------------------------//
 void driveTo(int distance)
@@ -176,7 +179,7 @@ task heading()
 
 void initialize()
 {
-	servoChangeRate[servo1] = 0;
+	servoChangeRate[servo3] = 0;
 	eraseDisplay();
 	startTask(heading);
 	nMotorEncoder[MOTOR_LEFT] = 0;

@@ -35,7 +35,7 @@ void toggleMotor(int buttonForward, int buttonReverse, tMotor motorToggle, int t
 	}
 
 }
-
+//This toggles a servo based on button input and toggleValue
 void toggleServo(int button, TServoIndex servoName, int toggleValue)
 {
 	if(button == 1 && toggled == false)
@@ -54,6 +54,13 @@ void toggleServo(int button, TServoIndex servoName, int toggleValue)
 void updateBase(int yAxis, int xAxis, tMotor RightDrive, tMotor LeftDrive)
 {
 	int scaleFactor = 100;
+
+	if(joy1Btn(8) == 1 || joy1Btn(7) == 1)
+	{
+		scaleFactor = 25;
+	}else{
+		scaleFactor = 100;
+	}
 	if(abs(yAxis) > DEADZONE)
 	{
 		if(abs(xAxis) > DEADZONE)
@@ -89,7 +96,12 @@ void updateArm(int axisShoulder, int axisElbow, tMotor ShoulderMotor, tMotor Elb
 																																			tSensors touchSensor)
 {
 	float scaleFactor = 1.0;
-
+	if(joy2Btn(8) == 1 || joy2Btn(7) == 1)
+	{
+		scaleFactor = .25;
+	}else{
+		scaleFactor = 1.00;
+	}
 	if(SensorValue(touchSensor) == 1)
 	{
 		if((axisShoulder) > 0)
