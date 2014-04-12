@@ -5,6 +5,8 @@
 
 #define DEADZONE 15
 #define ENCSTOP 6000
+#define ELBOW_DOWN 3147
+
 //This function updates the motors with direct joystick input. The arguments are
 //the joystick, and then the name of the motor you want it to affect.
 void updateMotor(int joystickInput, tMotor oneMotor)
@@ -15,8 +17,36 @@ void updateMotor(int joystickInput, tMotor oneMotor)
   }else{
   	motor[oneMotor] = 0;
 	}
-	wait10Msec(1);
 }
+
+//-------------------------------------------------------------------------------
+// this code controls the elbow
+void updateElbow(int joystickInput, tMotor oneMotor)
+{
+
+   // if the shoulder button is depressed, and the elbow shaft encoder is
+   // less than or equal to ELBOW_DOWN, and the motor direction is negative,
+   // then turn motor off and return
+   // from this function
+
+   /*if (false) {
+      motor[oneMotor] = 0;
+      return;
+  }*/ //I don't like dead code
+	nxtDisplayTextLine(2, "%d", nMotorEncoder[oneMotor]);
+	if(SensorValue(touchSensor) == 1 && nMotorEncoder[oneMotor] >= ELBOW_DOWN && joystickInput < 0)
+	{
+			motor[oneMotor] = 0;
+			return;
+	}
+	if(abs(joystickInput) > DEADZONE)
+  {
+   	motor[oneMotor] = (joystickInput);
+  }else{
+  	motor[oneMotor] = 0;
+	}
+}
+//-------------------------------------------------------------------------------
 
 //toggleMotor requires a global variable
 bool toggled = false;

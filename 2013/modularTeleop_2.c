@@ -24,6 +24,8 @@
 void initializeRobot()
 {
 	servo[servo3] = 10;
+	nMotorEncoder[ElbowMotor] = 0;
+	bNxtLCDStatusDisplay = false;
 	bFloatDuringInactiveMotorPWM = false;
 	wait1Msec(3);
   return;
@@ -37,7 +39,7 @@ task main()
   	getJoystickSettings(joystick);
   	updateBase(joystick.joy1_y1, joystick.joy1_x2, RightDrive, LeftDrive);
 		updateArm(joystick.joy2_y1, joystick.joy2_y2, ShoulderMotor, ElbowMotor, touchSensor);
-		updateMotor(joystick.joy2_y2, ElbowMotor);
+		updateElbow(joystick.joy2_y2, ElbowMotor);
 		toggleMotor(joy1Btn(5), joy1Btn(6), Spinmotor, 100);
 		toggleMotor(joy1Btn(4), joy1Btn(2), Flagspinner, 100);
 		toggleServo(joy2Btn(2), servo1, 90);
