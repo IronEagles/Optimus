@@ -83,7 +83,37 @@ void toggleServo(int button, TServoIndex servoName, int toggleValue)
 //experience with two axis values. Takes input axis, axis, motor, motor
 void updateBase(int yAxis, int xAxis, tMotor RightDrive, tMotor LeftDrive)
 {
-	int scaleFactor = 100;
+	if(abs(xAxis) > DEADZONE || abs(yAxis) > DEADZONE)
+		{
+			int rightMag, leftMag, joyMax, driveMax = 0;
+			float scaleFactor = 0;
+			leftMag = yAxis + xAxis;
+			rightMag = yAxis - xAxis;
+			if (abs(xAxis) >= abs(yAxis))
+			{
+				joyMax = abs(xAxis);
+			}
+			else if (abs(yAxis) >= abs(xAxis))
+			{
+				joyMax = abs(yAxis);
+			}
+			if (abs(rightMag) >= abs(leftMag))
+			{
+				driveMax = abs(rightMag);
+			}
+			else if (abs(leftMag) >= abs(rightMag))
+			{
+				driveMax = abs(leftMag);
+			}
+			scaleFactor = (float)joyMax / (float)driveMax;
+			motor[RightDrive] = (int)((float)rightMag*scaleFactor*(100.0/128.0));
+			motor[LeftDrive] = (int)((float)leftMag*scaleFactor*(100.0/128.0));
+}else
+{
+	motor[RightDrive] = 0;
+	motor[LeftDrive] = 0;
+}
+/*	int scaleFactor = 100;
 
 	if(joy1Btn(8) == 1 || joy1Btn(7) == 1)
 	{
@@ -110,7 +140,7 @@ void updateBase(int yAxis, int xAxis, tMotor RightDrive, tMotor LeftDrive)
 		motor[LeftDrive] = 0;
 		motor[RightDrive] = 0;
 	}
-
+*/
 	/*	if(abs(xAxis) > DEADZONE || abs(yAxis) > DEADZONE)
 		{
 			motor[RightDrive] = 100.0 * (yAxis + xAxis) / (127.0 + (float)abs(xAxis) ) ;
