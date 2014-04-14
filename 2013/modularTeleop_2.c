@@ -42,8 +42,6 @@ task main()
 		updateElbow(joystick.joy2_y2, ElbowMotor);
 		toggleMotor(joy1Btn(5), joy1Btn(6), Spinmotor, 100);
 		toggleMotor(joy1Btn(4), joy1Btn(2), Flagspinner, 100);
-		toggleServo(joy2Btn(2), servo1, 90);
-		nxtDisplayTextLine(1, "Enc = %d", abs(nMotorEncoder[ShoulderMotor]));
 		if(SensorValue(touchSensor) == 1)
 		{
 			nMotorEncoder[ShoulderMotor] = 0;
