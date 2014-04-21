@@ -21,6 +21,7 @@ int interface ()
 	until(nNxtButtonPressed == 3)
 	{
 		eraseDisplay();
+		//Print options to screen for user
 		nxtDisplayBigTextLine(1, "1:Fwd");
 		nxtDisplayBigTextLine(3, "2:Bckwd");
 		nxtDisplayBigTextLine(5, "-> %d", yournumber);
@@ -40,7 +41,7 @@ int interface ()
 }
 
 //-----------------------------------------------------------------------------------------------------//
-//This function does the same thing as the previous function, but asks for the desired wait time
+//This function does the same thing as the previous function, but asks for the desired wait time.
 int timeinterface ()
 {
 	int yourtime = 0;
@@ -67,17 +68,47 @@ int timeinterface ()
 	return yourtime;
 }
 
+
+int beginInterface()
+{
+	int yournumber = 1;
+
+	until(nNxtButtonPressed == 3)
+	{
+		eraseDisplay();
+		//Print options to screen for user
+		nxtDisplayTextLine(1, "1:N/A");
+		nxtDisplayTextLine(2, "2:Wall");
+		nxtDisplayTextLine(3, "3:Fast");
+		nxtDisplayTextLine(4, "4:N/A");
+		nxtDisplayTextLine(5, "-> %d", yournumber);
+
+		if(nNxtButtonPressed == 2)
+		{
+			yournumber --;
+			wait1Msec(200);
+		}
+		if(nNxtButtonPressed == 1)
+		{
+			yournumber ++;
+			wait1Msec(200);
+		}
+		wait1Msec(50);
+	}
+	return yournumber;
+}
 //-----------------------------------------------------------------------------------------------------//
 //This accelerates the robot from zero to 80
 
 void accelerate() // initial speed, top speed, distance
 {
 	int speed = 0;
-	while(speed < 80)  // from speed = 0 to 50
+	while(speed < 80)  // from speed = 0 to 80
 	{
 		speed = speed + 10;
+		//add speed
 		motor[MOTOR_LEFT] = speed;
-		motor[MOTOR_RIGHT] = speed + 2;
+		motor[MOTOR_RIGHT] = speed + 2; // + 2 compensates for frictional force caused by unequal distribution of weight
 		wait10Msec(5);
 	}
 }
@@ -90,8 +121,8 @@ void decelerate() // initial speed, top speed, distance
 	while(speed > -80)
 	{
 		speed = speed - 20;
-		motor[MOTOR_LEFT] = speed;
-		motor[MOTOR_RIGHT] = speed - 2;
+		motor[MOTOR_LEFT] = speed - 2;
+		motor[MOTOR_RIGHT] = speed;
 		wait10Msec(5);
 	}
 }
@@ -99,9 +130,9 @@ void decelerate() // initial speed, top speed, distance
 //-----------------------------------------------------------------------------------------------------//
 bool CheckIR(int irValue)
 {
-	if(SensorValue[IRsensor] == irValue)  // infinite loop:
+	if(SensorValue[IRsensor] == irValue)  //Only returns true if the IR sensor is reading the desired IR value
 	{
-		return(true); // Wait 100 milliseconds to help display correctly
+		return(true); //
 	}else
 	{
 		return(false);
@@ -111,10 +142,10 @@ bool CheckIR(int irValue)
 
 void gyroTurn(int power, float turn)
 {
-	currHeading = 0.0;
-	motor[MOTOR_LEFT] = power;
+	currHeading = 0.0; //Sets the initial angle to zero; Zeroes out the sensor.
+	motor[MOTOR_LEFT] = power; //Supply input power to motors
 	motor[MOTOR_RIGHT] = -power;
-	while(currHeading < (0.0+turn) || currHeading > (360.0-turn))
+	while(currHeading < (0.0+turn) || currHeading > (360.0-turn)) //Until the absolute value of the sensor value is greater than 90
 	{
 		wait1Msec(20);
 	}
@@ -129,11 +160,12 @@ void driveTo(int distance)
 {
 		while(abs(nMotorEncoder[MOTOR_LEFT]) < (distance * ENC_PER_INCH) && abs(nMotorEncoder[MOTOR_RIGHT]) < (distance *ENC_PER_INCH))
 		{
-
+			//This function simply makes the robot supply power until the encoders reach an absolute value(Note, because it's absolute value
+			// 	it doesn't drive distance, it drives to displacement from zero.)
 		}
 }
 //-----------------------------------------------------------------------------------------------------//
-void driveTo2(int distance)
+void driveTo2(int distance) //THIS FUNCTION IS TRASH (keeping it just in case)
 {
 	 int abs_enc;
 	  while(1) {
@@ -144,7 +176,7 @@ void driveTo2(int distance)
 	  }
 }
 //-----------------------------------------------------------------------------------------------------//
-void forwardRamp()
+void forwardRamp() //Moved this code into Left/Right Deux programs because it's different for left/right sides
 {
 
 }
@@ -154,7 +186,7 @@ void backwardRamp()
 
 }
 
-task heading()
+task heading() //Turns the gyro-rotational force into a 'number of degrees turned' value.
 {
 	float delTime = 0.0;
 	float prevHeading = 0.0;

@@ -1,5 +1,4 @@
 #pragma config(Hubs,  S1, HTMotor,  HTMotor,  HTMotor,  HTServo)
-#pragma config(Sensor, S1,     ,               sensorI2CMuxController)
 #pragma config(Sensor, S2,     touchSensor,    sensorTouch)
 #pragma config(Sensor, S3,     IRsensor,       sensorHiTechnicIRSeeker1200)
 #pragma config(Sensor, S4,     GYRO,           sensorI2CHiTechnicGyro)
@@ -23,7 +22,9 @@
 task main()
 {
 	wait1Msec(3);
-	int ending = interface();
+	int beginning = beginInterface();
+	wait1Msec(500);
+	int ending =  interface();
 	wait1Msec(1000);
 	int timing = timeinterface();
 	servo(servo3) = 0;
@@ -33,41 +34,181 @@ task main()
 	wait10Msec(timing * 100);
 	initialize();
 	wait10Msec(30);
-
-	// Move away from the wall
-	motor[MOTOR_LEFT] = 40;
-	motor[MOTOR_RIGHT] = 40;
-	driveTo(4);
-	motor[MOTOR_LEFT] = 0;
-	motor[MOTOR_RIGHT] = 0;
+	switch(beginning)   // test 'nTaskToStart' in the switch
+	{
+  	case 1: //Corner
 
 
-	// Turn toward the west wall
-	gyroTurn(-20, 87);
-	motor[MOTOR_LEFT] = 0;
-	motor[MOTOR_RIGHT] = 0;
-	nMotorEncoder[MOTOR_LEFT] = 0;
-	nMotorEncoder[MOTOR_RIGHT] = 0;
+  	case 2: //Wall
+		  // Move away from the wall
+			motor[MOTOR_LEFT] = 40;
+			motor[MOTOR_RIGHT] = 40;
+			driveTo(4);
+			motor[MOTOR_LEFT] = 0;
+			motor[MOTOR_RIGHT] = 0;
+			// Turn toward the west wall
+			gyroTurn(-20, 87);
+			motor[MOTOR_LEFT] = 0;
+			motor[MOTOR_RIGHT] = 0;
+			nMotorEncoder[MOTOR_LEFT] = 0;
+			nMotorEncoder[MOTOR_RIGHT] = 0;
+			// Drive toward the west wall
+			motor[MOTOR_LEFT] = 40;
+			motor[MOTOR_RIGHT] = 40;
+			driveTo(28);
+			motor[MOTOR_LEFT] = 0;
+			motor[MOTOR_RIGHT] = 0;
+			// Turn toward the baskets
+			gyroTurn(20, 43);
+			nMotorEncoder[MOTOR_LEFT] = 0;
+			nMotorEncoder[MOTOR_RIGHT] = 0;
 
-	// Drive toward the west wall
-	motor[MOTOR_LEFT] = 40;
-	motor[MOTOR_RIGHT] = 40;
-	driveTo(28);
-	motor[MOTOR_LEFT] = 0;
-	motor[MOTOR_RIGHT] = 0;
+  	case 3: //Fast
+  		// Move away from the wall
+			motor[MOTOR_LEFT] = 40;
+			motor[MOTOR_RIGHT] = 40;
+			driveTo(2);
+			motor[MOTOR_LEFT] = 0;
+			motor[MOTOR_RIGHT] = 0;
+			nMotorEncoder[MOTOR_LEFT] = 0;
+			nMotorEncoder[MOTOR_RIGHT] = 0;
+  /*	case 4: //Masquerad
+  	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  		// Move away from the wall
+			motor[MOTOR_LEFT] = 40;
+			motor[MOTOR_RIGHT] = 40;
+			driveTo(2);
+			motor[MOTOR_LEFT] = 0;
+			motor[MOTOR_RIGHT] = 0;
+			nMotorEncoder[MOTOR_LEFT] = 0;
+			nMotorEncoder[MOTOR_RIGHT] = 0;
+
+			accelerate();
+		  driveTo(12);
+			if(CheckIR(6)) // The first basket
+			{
+				motor[MOTOR_LEFT] = 0;
+				motor[MOTOR_RIGHT] = 0;
+				wait10Msec(4);
+				servoTarget(servo3) = 180;
+				wait10Msec(50);
+				//forward/back
+			}else { // The second basket
+				driveTo(23);
+				if(checkIR(5))
+				{
+					motor[MOTOR_LEFT] = 0;
+					motor[MOTOR_RIGHT] = 0;
+					servoTarget(servo3) = 180;
+					wait10Msec(150);
+					//forward/back
+				}else{ // The third basket
+					driveTo(43);
+					if(sensorValue[IRsensor] == 4 || sensorValue[IRsensor] == 5)
+					{
+						motor[MOTOR_LEFT] = 0;
+						motor[MOTOR_RIGHT] = 0;
+						servoTarget(servo3) = 180;
+						wait10Msec(150);
+						//place block
+						//forward/back
+					}else{ // The fourth basket
+						driveTo(52);
+						motor[MOTOR_LEFT] = 0;
+						motor[MOTOR_RIGHT] = 0;
+						servoTarget(servo3) = 180; // Deploy the auto-scoring arm
+						wait10Msec(150);
+					}
+				}
+			}
+			servoTarget[servo3] = 0;
+			gyroTurn(30, 87);
+			nMotorEncoder[MOTOR_LEFT] = 0;
+			nMotorEncoder[MOTOR_RIGHT] = 0;
+			///
+			motor[MOTOR_LEFT] = -40;
+			motor[MOTOR_RIGHT] = -40;
+			driveTo(10);
+			motor[MOTOR_LEFT] = 0;
+			motor[MOTOR_RIGHT] = 0;
+			nMotorEncoder[MOTOR_LEFT] = 0;
+			nMotorEncoder[MOTOR_RIGHT] = 0;
+			///
+			gyroTurn(30, 87);
+			nMotorEncoder[MOTOR_LEFT] = 0;
+			nMotorEncoder[MOTOR_RIGHT] = 0;
+			///
+			motor[MOTOR_LEFT] = 40;
+			motor[MOTOR_RIGHT] = 40;
+			driveTo(6);
+			motor[MOTOR_LEFT] = 0;
+			motor[MOTOR_RIGHT] = 0;
+			nMotorEncoder[MOTOR_LEFT] = 0;
+			nMotorEncoder[MOTOR_RIGHT] = 0;
+			///
+			gyroTurn(-30, 87);
+			nMotorEncoder[MOTOR_LEFT] = 0;
+			nMotorEncoder[MOTOR_RIGHT] = 0;
+			///
+			nMotorEncoder[ShoulderMotor] = 0;
+			while(nMotorEncoder[ShoulderMotor] > -3500)
+			{
+				motor[ShoulderMotor] = -50;
+			}
+
+			motor[ShoulderMotor] = 0;
+			///
+			motor[MOTOR_LEFT] = 40;
+			motor[MOTOR_RIGHT] = 40;
+			driveTo(10);
+			motor[MOTOR_LEFT] = 0;
+			motor[MOTOR_RIGHT] = 0;
+			nMotorEncoder[MOTOR_LEFT] = 0;
+			nMotorEncoder[MOTOR_RIGHT] = 0;
+			//
+			nMotorEncoder[ElbowMotor] = 0;
+			while(nMotorEncoder[ElbowMotor] < 3500)
+			{
+				motor[ElbowMotor] = -10;
+			}
+			motor[ElbowMotor] = 0;
+			///
+			motor[Spinmotor] = -100;
+			wait10Msec(100);
+			motor[Spinmotor] = 0;
+
+			//SPIN SPINNER SPINNILY
+
+			///
+			while(nMotorEncoder[ElbowMotor] > 100)
+			{
+				motor[ElbowMotor] = 10;
+			}
+			motor[ElbowMotor] = 0;
+			///
+			while(sensorValue(S2) == 0)
+			{
+				motor[ShoulderMotor] = 50;
+			}
+			motor[ShoulderMotor] = 0;
+			gyroTurn(30, 87);
+			nMotorEncoder[MOTOR_LEFT] = 0;
+			nMotorEncoder[MOTOR_RIGHT] = 0;
+		*/	///
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  	default:
+  	//IF YOU MANAGE TO DO THIS YOU ARE A GAWD
+
+  }
 
 
-	// Turn toward the baskets
-	gyroTurn(20, 43);
-	nMotorEncoder[MOTOR_LEFT] = 0;
-	nMotorEncoder[MOTOR_RIGHT] = 0;
 	//-------------------------------
 
 	// We're aligned with the baskets.
 	// Start walking along them looking for the IR beacon
 	accelerate();
-  driveTo(16);
-	if(CheckIR(5)) // The first basket
+  driveTo(12);
+	if(CheckIR(6)) // The first basket
 	{
 		motor[MOTOR_LEFT] = 0;
 		motor[MOTOR_RIGHT] = 0;
@@ -76,7 +217,7 @@ task main()
 		wait10Msec(50);
 		//forward/back
 	}else { // The second basket
-		driveTo(26);
+		driveTo(23);
 		if(checkIR(5))
 		{
 			motor[MOTOR_LEFT] = 0;
@@ -85,7 +226,7 @@ task main()
 			wait10Msec(150);
 			//forward/back
 		}else{ // The third basket
-			driveTo(46);
+			driveTo(43);
 			if(sensorValue[IRsensor] == 4 || sensorValue[IRsensor] == 5)
 			{
 				motor[MOTOR_LEFT] = 0;
@@ -95,7 +236,7 @@ task main()
 				//place block
 				//forward/back
 			}else{ // The fourth basket
-				driveTo(55);
+				driveTo(52);
 				motor[MOTOR_LEFT] = 0;
 				motor[MOTOR_RIGHT] = 0;
 				servoTarget(servo3) = 180; // Deploy the auto-scoring arm
@@ -112,7 +253,7 @@ task main()
   		// Drive to the end of the baskets.
   		motor[MOTOR_LEFT] = 90;
 			motor[MOTOR_RIGHT] = 90;
-    	driveTo(60);
+    	driveTo(58);
     	motor[MOTOR_LEFT] = 0;
 			motor[MOTOR_RIGHT] = 0;
 
@@ -124,7 +265,7 @@ task main()
 			// Drive in front of the ramp
 			motor[MOTOR_LEFT] = 90;
 			motor[MOTOR_RIGHT] = 90;
-			driveTo(20);
+			driveTo(18);
 			motor[MOTOR_LEFT] = 0;
 			motor[MOTOR_RIGHT] = 0;
 
@@ -135,14 +276,14 @@ task main()
 
 			motor[MOTOR_LEFT] = 90;
 			motor[MOTOR_RIGHT] = 90;
-			driveTo(30);
+			driveTo(28);
 			motor[MOTOR_LEFT] = 0;
 			motor[MOTOR_RIGHT] = 0;
-			gyroTurn(20, 60);
+			gyroTurn(-20, 100);
 			nMotorEncoder[MOTOR_LEFT] = 0;
 			nMotorEncoder[MOTOR_RIGHT] = 0;
-			motor[MOTOR_LEFT] = 50;
-			motor[MOTOR_RIGHT] = 50;
+			motor[MOTOR_LEFT] = -100;
+			motor[MOTOR_RIGHT] = -100;
 			driveTo(40);
 			motor[MOTOR_LEFT] = 0;
 			motor[MOTOR_RIGHT] = 0;
@@ -151,34 +292,34 @@ task main()
   	case 2:                // if 'nTaskToStart' is '2':
 			motor[MOTOR_LEFT] = -50;
 			motor[MOTOR_RIGHT] = -50;
-			while(abs(nMotorEncoder[MOTOR_RIGHT]) > 2000)
+			while(abs(nMotorEncoder[MOTOR_RIGHT]) > 1500)
 			{
 			}
 			motor[MOTOR_LEFT] = 0;
 			motor[MOTOR_RIGHT] = 0;
 
-			gyroTurn(60, 160);
+			//gyroTurn(60, 160);
 
 			nMotorEncoder[MOTOR_LEFT] = 0;
 			nMotorEncoder[MOTOR_RIGHT] = 0;
-			motor[MOTOR_LEFT] = 90;
-			motor[MOTOR_RIGHT] = 90;
-			driveTo(10);
+			motor[MOTOR_LEFT] = -90;
+			motor[MOTOR_RIGHT] = -90;
+			driveTo(5);
     	motor[MOTOR_LEFT] = 0;
 			motor[MOTOR_RIGHT] = 0;
 			gyroTurn(-40, 70);
 			nMotorEncoder[MOTOR_LEFT] = 0;
 			nMotorEncoder[MOTOR_RIGHT] = 0;
-			motor[MOTOR_LEFT] = 50;
-			motor[MOTOR_RIGHT] = 50;
-			driveTo(35);
+			motor[MOTOR_LEFT] = -50;
+			motor[MOTOR_RIGHT] = -50;
+			driveTo(30);
 			motor[MOTOR_LEFT] = 0;
 			motor[MOTOR_RIGHT] = 0;
 			gyroTurn(-40, 90);
 			nMotorEncoder[MOTOR_LEFT] = 0;
 			nMotorEncoder[MOTOR_RIGHT] = 0;
-			motor[MOTOR_LEFT] = 90;
-			motor[MOTOR_RIGHT] = 90;
+			motor[MOTOR_LEFT] = -90;
+			motor[MOTOR_RIGHT] = -90;
 			driveTo(35);
 			motor[MOTOR_LEFT] = 0;
 			motor[MOTOR_RIGHT] = 0;
